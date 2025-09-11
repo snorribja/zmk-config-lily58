@@ -5,4 +5,5 @@ jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3
     with:
-      extra-cmake-args: -DZMK_EXTRA_MODULES=modules/unicode
+      cmake-args: -DZMK_EXTRA_MODULES=modules/unicode
+
