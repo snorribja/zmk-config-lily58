@@ -5,10 +5,21 @@
  */
 
 #include <behaviors.dtsi>
-#include <behaviors/unicode.dtsi>
+#define HOST_OS 0
+#include "zmk-helpers/helper.h"
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>
+
+// US coding symbols via Unicode (works regardless of OS layout)
+ZMK_UNICODE_SINGLE(uc_lbkt,  N0, N0, N5, B) // U+005B  [
+ZMK_UNICODE_SINGLE(uc_rbkt,  N0, N0, N5, D) // U+005D  ]
+ZMK_UNICODE_SINGLE(uc_lcbr,  N0, N0, N7, B) // U+007B  {
+ZMK_UNICODE_SINGLE(uc_rcbr,  N0, N0, N7, D) // U+007D  }
+ZMK_UNICODE_SINGLE(uc_bslash,N0, N0, N5, C) // U+005C  \
+ZMK_UNICODE_SINGLE(uc_pipe,  N0, N0, N7, C) // U+007C  |
+ZMK_UNICODE_SINGLE(uc_uscor, N0, N0, N5, F) // U+005F  _
+
 
 / {
     keymap {
@@ -26,7 +37,7 @@
 &kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                     &kp N6 &kp N7   &kp N8    &kp N9  &kp N0   &kp MINUS
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                      &kp Y  &kp U    &kp I     &kp O   &kp P    &kp LBKT 
 &kp LSHIFT &lt 3 A  &kp S &lt 5 D   &lt 4 F   &kp G                        &kp H  &kp J    &kp K     &kp L   &kp SEMI &kp SQT
-&kp LCTRL &kp Z  &kp X  &kp C    &kp V    &kp B  &uc 0x005B   &uc 0x005D &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
+&kp LCTRL &kp Z  &kp X  &kp C    &kp V    &kp B  &uc_lbkt   &uc_rbkt &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
                         &kp LGUI &kp LALT &mo 1  &kp RET    &kp SPACE  &mo 2  &kp BSPC &kp RGUI
             >;
 
@@ -45,7 +56,7 @@
 &bt BT_CLR &bt BT_SEL 0     &bt BT_SEL 1      &bt BT_SEL 2      &bt BT_SEL 3 &bt BT_SEL 4                 &trans    &trans    &trans    &trans    &trans    &trans
 &kp F1     &kp F2           &kp F3            &kp F4            &kp F5       &kp F6                       &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
 &kp GRAVE  &kp EXCL         &kp AT            &kp HASH          &kp DOLLAR   &kp PRCNT                    &kp CARET &kp AMPS  &kp ASTRK &kp LPAR  &kp RPAR  &kp TILDE
-&trans     &ext_power EP_ON &ext_power EP_OFF &ext_power EP_TOG &trans       &trans    &uc 0x007B   &uc 0x007D    &uc 0x005F    &kp MINUS &kp PLUS  &kp LBRC &kp RBRC  &kp PIPE
+&trans     &ext_power EP_ON &ext_power EP_OFF &ext_power EP_TOG &trans       &trans    &uc_lcbr   &uc_rcbr    &uc_uscor    &kp MINUS &kp PLUS  &kp LBRC &kp RBRC  &kp PIPE
                                               &trans            &trans       &trans    &kp RET    &kp SPACE    &trans    &kp BSPC    &trans
             >;
 
