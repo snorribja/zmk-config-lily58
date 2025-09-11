@@ -1,9 +1,41 @@
 name: Build ZMK firmware
+
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3
-    with:
-      cmake-args: -DZMK_EXTRA_MODULES=modules/unicode
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout config
+        uses: actions/checkout@v3
+
+      - name: Init west
+        run: |
+          pip3 install west
+          west init -l config
+          west update
+
+      - name: Build (left)
+        run: west build -s zmk/app -d build/left -b nice_nano_v2 -- \
+             -DZMK_CONFIG=config \
+             -DSHIELD=lily58_left \
+             -DZMK_EXTRA_MODULES=modules/unicode
+
+      - name: Upload (left)
+        uses: actions/upload-artifact@v3
+        with:
+          name: lily58_left-nice_nano_v2
+          path: build/left/zephyr/zmk.uf2
+
+      - name: Build (right)
+        run: west build -s zmk/app -d build/right -b nice_nano_v2 -- \
+             -DZMK_CONFIG=config \
+             -DSHIELD=lily58_right \
+             -DZMK_EXTRA_MODULES=modules/unicode
+
+      - name: Upload (right)
+        uses: actions/upload-artifact@v3
+        with:
+          name: lily58_right-nice_nano_v2
+          path: build/right/zephyr/zmk.uf2
